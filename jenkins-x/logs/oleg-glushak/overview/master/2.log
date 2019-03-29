@@ -1,0 +1,318 @@
+Step: build-step-credential-initializer:
+
+{"level":"warn","ts":1553882554.4671519,"logger":"fallback-logger","caller":"logging/config.go:65","msg":"Fetch GitHub commit ID from kodata failed: \"ref: refs/heads/test\" is not a valid GitHub commit ID"}
+{"level":"info","ts":1553882554.4684758,"logger":"fallback-logger","caller":"creds-init/main.go:40","msg":"Credentials initialized."}
+Step: build-step-git-source-0:
+
+{"level":"warn","ts":1553882555.732154,"logger":"fallback-logger","caller":"logging/config.go:65","msg":"Fetch GitHub commit ID from kodata failed: \"ref: refs/heads/test\" is not a valid GitHub commit ID"}
+{"level":"info","ts":1553882557.4678075,"logger":"fallback-logger","caller":"git-init/main.go:92","msg":"Successfully cloned \"https://github.com/oleg-glushak/overview.git\" @ \"923d1841277d4bfa197dbf81554343f413c160b9\" in path \"/workspace\""}
+Step: build-step-jenkins:
+
+Picked up _JAVA_OPTIONS: -Xmx400m
+Started
+Running in Durability level: PERFORMANCE_OPTIMIZED
+  17.699 [id=33]	WARNING	i.f.k.c.i.VersionUsageUtils#alert: The client is using resource type 'customresourcedefinitions' with unstable version 'v1beta1'
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /tmp/jenkinsTests.tmp/jenkins5070123936246688226test/workspace/job
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withCredentials
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (CI Build and push snapshot)
+Stage "CI Build and push snapshot" skipped due to when conditional
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Release)
+[Pipeline] git
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/oleg-glushak/overview.git # timeout=10
+Fetching upstream changes from https://github.com/oleg-glushak/overview.git
+ > git --version # timeout=10
+ > git fetch --tags --progress https://github.com/oleg-glushak/overview.git +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision 923d1841277d4bfa197dbf81554343f413c160b9 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 923d1841277d4bfa197dbf81554343f413c160b9
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D master # timeout=10
+ > git checkout -b master 923d1841277d4bfa197dbf81554343f413c160b9
+Commit message: "Improve docker build performance"
+First time build. Skipping changelog.
+[Pipeline] sh
++ jx step next-version --use-git-tag-only --tag
+created new version: 0.0.5 and written to file: ./VERSION
+Tag v0.0.5 created and pushed to remote origin
+[Pipeline] sh
++ cat VERSION
++ docker build -t 10.59.253.29:5000/oleg-glushak/overview:0.0.5 .
+Sending build context to Docker daemon  1.867MB
+Step 1/11 : FROM ruby:2.4-stretch
+ ---> a14928bdfa34
+Step 2/11 : VOLUME /zattoo/overview/shared
+ ---> Using cache
+ ---> 7b3c5c92f585
+Step 3/11 : RUN apt-get update &&     apt-get upgrade -y &&     apt-get install -y --force-yes build-essential curl git nano wget telnet zlib1g-dev libssl-dev libreadline-dev libyaml-dev libxml2-dev libxslt-dev default-libmysqlclient-dev vim
+ ---> Using cache
+ ---> 800cf5cc89cb
+Step 4/11 : WORKDIR /tmp
+ ---> Using cache
+ ---> 0eef4c506be8
+Step 5/11 : COPY Gemfile Gemfile.lock ./
+ ---> Using cache
+ ---> c7b0af1ae9ce
+Step 6/11 : RUN bundle install --without development test &&     mkdir -p /zattoo/overview/current
+ ---> Using cache
+ ---> dba36574f9cd
+Step 7/11 : WORKDIR /zattoo/overview/current
+ ---> Using cache
+ ---> 9503836b081d
+Step 8/11 : COPY . /zattoo/overview/current
+ ---> f919a0500def
+Removing intermediate container cae2f103166b
+Step 9/11 : RUN bundle install --without development test &&   cp config/database.yml.example config/database.yml &&   cp config/secrets.yml.example config/secrets.yml &&   cp config/config.yml.example config/config.yml &&   RAILS_ENV=production rake assets:precompile &&   rm config/database.yml &&   rm config/secrets.yml &&   rm config/config.yml &&   mkdir -p /zattoo/overview/shared &&   ln -s /zattoo/overview/shared/config/database.yml /zattoo/overview/current/config/database.yml &&   ln -s /zattoo/overview/shared/config/secrets.yml /zattoo/overview/current/config/secrets.yml &&   ln -s /zattoo/overview/shared/config/config.yml /zattoo/overview/current/config/config.yml &&   rm -r /zattoo/overview/current/log &&   ln -nsf /zattoo/overview/shared/log /zattoo/overview/current/log &&   rm -r /zattoo/overview/current/tmp &&   ln -s /zattoo/overview/shared/tmp /zattoo/overview/current/tmp
+ ---> Running in 17bbda14515a
+Using rake 12.3.1
+Using RedCloth 4.3.2
+Using aasm 3.4.0
+Using concurrent-ruby 1.0.5
+Using i18n 0.8.1
+Using minitest 5.10.1
+Using thread_safe 0.3.6
+Using tzinfo 1.2.3
+Using activesupport 5.0.2
+Using builder 3.2.3
+Using erubis 2.7.0
+Using mini_portile2 2.1.0
+Using nokogiri 1.7.1
+Using rails-dom-testing 2.0.2
+Using loofah 2.0.3
+Using rails-html-sanitizer 1.0.3
+Using actionview 5.0.2
+Using rack 2.0.1
+Using rack-test 0.6.3
+Using actionpack 5.0.2
+Using nio4r 2.0.0
+Using websocket-extensions 0.1.2
+Using websocket-driver 0.6.5
+Using actioncable 5.0.2
+Using globalid 0.4.0
+Using activejob 5.0.2
+Using mime-types-data 3.2016.0521
+Using mime-types 3.1
+Using mail 2.6.5
+Using actionmailer 5.0.2
+Using activemodel 5.0.2
+Using arel 7.1.4
+Using activerecord 5.0.2
+Using acts-as-taggable-on 4.0.0
+Using acts_as_tree 2.7.0
+Using net-ssh 5.0.1
+Using net-scp 1.2.1
+Using sshkit 1.16.1
+Using airbrussh 1.3.0
+Using execjs 2.7.0
+Using autoprefixer-rails 7.1.6
+Using bcrypt 3.1.11
+Using popper_js 1.12.5
+Using rb-fsevent 0.9.8
+Using ffi 1.9.18
+Using rb-inotify 0.9.8
+Using sass-listen 4.0.0
+Using sass 3.5.3
+Using bootstrap 4.0.0.beta2.1
+Using method_source 0.8.2
+Using thor 0.19.4
+Using railties 5.0.2
+Using momentjs-rails 2.17.1
+Using bootstrap3-datetimepicker-rails 4.17.47
+Using bundler 1.17.3
+Using capistrano 3.11.0
+Using capistrano-bundler 1.3.0
+Using capistrano-rails 1.4.0
+Using capistrano-rbenv 2.1.3
+Using capistrano3-unicorn 0.2.1
+Using chronic 0.10.2
+Using coffee-script-source 1.12.2
+Using coffee-script 2.4.1
+Using coffee-rails 4.2.1
+Using orm_adapter 0.5.0
+Using responders 2.3.0
+Using warden 1.2.7
+Using devise 4.2.1
+Using eventmachine 1.2.3
+Using multipart-post 2.0.0
+Using faraday 0.11.0
+Using faraday_middleware 0.11.0.1
+Using faye-websocket 0.10.7
+Using font-awesome-rails 4.7.0.2
+Using gli 2.16.0
+Using temple 0.8.0
+Using tilt 2.0.7
+Using haml 5.0.0
+Using sprockets 3.7.1
+Using haml_coffee_assets 1.17.0
+Using has_scope 0.7.1
+Using hashie 3.5.5
+Using jquery-rails 4.3.1
+Using json 2.1.0
+Using jwt 2.1.0
+Using kgio 2.11.2
+Using libv8 3.16.14.19 (x86_64-linux)
+Using multi_json 1.13.1
+Using multi_xml 0.6.0
+Using mysql2 0.4.5
+Using oauth2 1.4.1
+Using omniauth 1.9.0
+Using omniauth-oauth2 1.6.0
+Using omniauth-google-oauth2 0.6.0
+Using pundit 1.1.0
+Using sprockets-rails 3.2.0
+Using rails 5.0.2
+Using raindrops 0.19.0
+Using ref 2.0.0
+Using rolify 5.1.0
+Using sass-rails 5.0.6
+Using select2-rails 4.0.3
+Using sentry-raven 2.7.2
+Using settingslogic 2.0.9
+Using slack-ruby-client 0.8.1
+Using therubyracer 0.12.3
+Using uglifier 3.2.0
+Using unicorn 5.4.0
+Using whenever 0.10.0
+Bundle complete! 41 Gemfile dependencies, 109 gems now installed.
+Gems in the groups development and test were not installed.
+Bundled gems are installed into `/usr/local/bundle`
+[91mI, [2019-03-29T18:03:33.738605 #11]  INFO -- : Writing /zattoo/overview/current/public/assets/logos/missing_slack_image-e85153cbef1cf676d7d04983f954816bd4d92164057a940d75154ffca15d0db7.png
+[0m[91mI, [2019-03-29T18:03:33.742569 #11]  INFO -- : Writing /zattoo/overview/current/public/assets/logos/zattoo_logo_neg_214_60-9df8c77a821989774046b57d7ef8f777d461e05f9f7644d6d5395abb58cbb423.png
+[0m[91mI, [2019-03-29T18:03:33.745470 #11]  INFO -- : Writing /zattoo/overview/current/public/assets/logos/zattoo_rgb_pos-04d1a526a03da78bd515e465c0e597af666b3c4690cb810d1d85de16af715ae2.png
+[0m[91mI, [2019-03-29T18:03:39.771141 #11]  INFO -- : Writing /zattoo/overview/current/public/assets/application-86edcb43f24c78a67cad5db211e44fa5b2e502a20f45bcf633d328ec38c9e312.js
+I, [2019-03-29T18:03:39.771599 #11]  INFO -- : Writing /zattoo/overview/current/public/assets/application-86edcb43f24c78a67cad5db211e44fa5b2e502a20f45bcf633d328ec38c9e312.js.gz
+[0m[91mI, [2019-03-29T18:03:47.378494 #11]  INFO -- : Writing /zattoo/overview/current/public/assets/application-432212ea8aeea97225a6c1f9186eb730eae90089e88022c10399aba8e76ba2de.css
+[0m[91mI, [2019-03-29T18:03:47.379247 #11]  INFO -- : Writing /zattoo/overview/current/public/assets/application-432212ea8aeea97225a6c1f9186eb730eae90089e88022c10399aba8e76ba2de.css.gz
+[0m[91mI, [2019-03-29T18:03:47.379891 #11]  INFO -- : Writing /zattoo/overview/current/public/assets/fontawesome-webfont-7bfcab6db99d5cfbf1705ca0536ddc78585432cc5fa41bbd7ad0f009033b2979.eot
+[0m[91mI, [2019-03-29T18:03:47.380558 #11]  INFO -- : Writing /zattoo/overview/current/public/assets/fontawesome-webfont-7bfcab6db99d5cfbf1705ca0536ddc78585432cc5fa41bbd7ad0f009033b2979.eot.gz
+[0m[91mI, [2019-03-29T18:03:47.401288 #11]  INFO -- : Writing /zattoo/overview/current/public/assets/fontawesome-webfont-2adefcbc041e7d18fcf2d417879dc5a09997aa64d675b7a3c4b6ce33da13f3fe.woff2
+[0m[91mI, [2019-03-29T18:03:47.404814 #11]  INFO -- : Writing /zattoo/overview/current/public/assets/fontawesome-webfont-ba0c59deb5450f5cb41b3f93609ee2d0d995415877ddfa223e8a8a7533474f07.woff
+[0m[91mI, [2019-03-29T18:03:47.405540 #11]  INFO -- : Writing /zattoo/overview/current/public/assets/fontawesome-webfont-aa58f33f239a0fb02f5c7a6c45c043d7a9ac9a093335806694ecd6d4edc0d6a8.ttf
+[0m[91mI, [2019-03-29T18:03:47.408331 #11]  INFO -- : Writing /zattoo/overview/current/public/assets/fontawesome-webfont-aa58f33f239a0fb02f5c7a6c45c043d7a9ac9a093335806694ecd6d4edc0d6a8.ttf.gz
+[0m[91mI, [2019-03-29T18:03:47.408794 #11]  INFO -- : Writing /zattoo/overview/current/public/assets/fontawesome-webfont-ad6157926c1622ba4e1d03d478f1541368524bfc46f51e42fe0d945f7ef323e4.svg
+[0m[91mI, [2019-03-29T18:03:47.446107 #11]  INFO -- : Writing /zattoo/overview/current/public/assets/fontawesome-webfont-ad6157926c1622ba4e1d03d478f1541368524bfc46f51e42fe0d945f7ef323e4.svg.gz
+[0m ---> 7ed3553cea01
+Removing intermediate container 17bbda14515a
+Step 10/11 : EXPOSE 8080
+ ---> Running in 2d43fcdcd5c8
+ ---> 1bcb4d2e7f07
+Removing intermediate container 2d43fcdcd5c8
+Step 11/11 : CMD bundle exec unicorn -r ./sync.rb -c config/unicorn.rb
+ ---> Running in ad39e758caca
+ ---> ffd7bbf39abf
+Removing intermediate container ad39e758caca
+Successfully built ffd7bbf39abf
+[Pipeline] sh
++ cat VERSION
++ docker push 10.59.253.29:5000/oleg-glushak/overview:0.0.5
+The push refers to a repository [10.59.253.29:5000/oleg-glushak/overview]
+7d34c17c5c58: Preparing
+30ed7fedab1d: Preparing
+651708f788e6: Preparing
+d6b18ae6de56: Preparing
+421cecaa4e5e: Preparing
+0e2752d2846e: Preparing
+4170ba949686: Preparing
+d43f42c485cd: Preparing
+0fe19df8b8f8: Preparing
+b17cc31e431b: Preparing
+12cb127eee44: Preparing
+604829a174eb: Preparing
+fbb641a8b943: Preparing
+0e2752d2846e: Waiting
+b17cc31e431b: Waiting
+12cb127eee44: Waiting
+604829a174eb: Waiting
+4170ba949686: Waiting
+d43f42c485cd: Waiting
+fbb641a8b943: Waiting
+0fe19df8b8f8: Waiting
+d6b18ae6de56: Layer already exists
+651708f788e6: Layer already exists
+421cecaa4e5e: Layer already exists
+0e2752d2846e: Layer already exists
+d43f42c485cd: Layer already exists
+4170ba949686: Layer already exists
+0fe19df8b8f8: Layer already exists
+b17cc31e431b: Layer already exists
+604829a174eb: Layer already exists
+fbb641a8b943: Layer already exists
+12cb127eee44: Layer already exists
+30ed7fedab1d: Pushed
+7d34c17c5c58: Pushed
+0.0.5: digest: sha256:722fad7da66ef60f772fd17ba001e159d766066d04dd25ac892bd88ca4a3478a size: 3058
+[Pipeline] sh
++ cat VERSION
++ jx step post build --image 10.59.253.29:5000/oleg-glushak/overview:0.0.5
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Promote to Environments)
+[Pipeline] dir
+Running in /tmp/jenkinsTests.tmp/jenkins5070123936246688226test/workspace/job/charts/overview
+[Pipeline] {
+[Pipeline] sh
++ cat ../../VERSION
++ jx step changelog --version v0.0.5
+Using batch mode as inside a pipeline
+Converted /tmp/jenkinsTests.tmp/jenkins5070123936246688226test/workspace/job/charts/overview to an unshallow repository
+Generating change log from git ref 923d1841277d4bfa197dbf81554343f413c160b9 => 862b3e29e6b63543d6186b5bc4f95bdb1e28181e
+Failed to enrich commits with issues: User.jenkins.io "" is invalid: metadata.name: Required value: name or generateName is required
+Failed to enrich commits with issues: User.jenkins.io "" is invalid: metadata.name: Required value: name or generateName is required
+Finding issues in commit messages using git format
+No release found for oleg-glushak/overview and tag v0.0.5 so creating a new release
+Updated the release information at https://github.com/oleg-glushak/overview/releases/tag/v0.0.5
+generated: /tmp/jenkinsTests.tmp/jenkins5070123936246688226test/workspace/job/charts/overview/templates/release.yaml
+Created Release overview-0-0-5 resource in namespace jx
+Updating PipelineActivity oleg-glushak-overview-master-2 with version 0.0.5
+Updated PipelineActivities oleg-glushak-overview-master-2 with release notes URL: https://github.com/oleg-glushak/overview/releases/tag/v0.0.5
+[Pipeline] sh
++ jx step helm release
+No $CHART_REPOSITORY defined so using the default value of: http://jenkins-x-chartmuseum:8080
+Adding missing Helm repo: jenkins-x http://chartmuseum.jenkins-x.io
+Successfully added Helm repository jenkins-x.
+Adding missing Helm repo: releases http://jenkins-x-chartmuseum:8080
+Successfully added Helm repository releases.
+No $CHART_REPOSITORY defined so using the default value of: http://jenkins-x-chartmuseum:8080
+Uploading chart file overview-0.0.5.tgz to http://jenkins-x-chartmuseum:8080/api/charts
+Received 201 response: {"saved":true}
+[Pipeline] sh
++ cat ../../VERSION
++ jx promote -b --all-auto --timeout 1h --version 0.0.5
+prow based install so skip waiting for the merge of Pull Requests to go green as currently there is an issue with gettingstatuses from the PR, see https://github.com/jenkins-x/jx/issues/2410
+Promoting app overview version 0.0.5 to namespace jx-staging
+Created Pull Request: https://github.com/oleg-glushak/environment-gemhail-staging/pull/2
+
+Pull Request https://github.com/oleg-glushak/environment-gemhail-staging/pull/2 is merged at sha a68a4d5dd5d33bd102e8013b769506422c7d263f
+Pull Request merged but we are not waiting for the update pipeline to complete!
+Could not find the service URL in namespace jx-staging for names overview, jx-overview, jx-staging-overview
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
